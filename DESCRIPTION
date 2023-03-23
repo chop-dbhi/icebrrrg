@@ -1,0 +1,36 @@
+Package: icebrrrg
+Title: Statistics and Machine Learning Helper for Cleaner Expansive Summary Data
+Version: 0.0.9
+Authors@R: c(person(given = "Michael",
+                    family = "Kaufman",
+                    role = c("aut", "cre"),
+                    email = "kaufmanmc@chop.edu",
+                    comment = c(ORCID = "0000-0003-2718-296X")),
+             person(given = "Julie",
+                    family = "Xian",
+                    role = c("aut"),
+                    email = "xianj@chop.edu"),
+            person(given = "Shridhar",
+                    family = "Parthasarathy",
+                    role = c("aut"),
+                    email = "parthasars@chop.edu"),
+            person(given = "Alexander",
+                    family = "Gonzalez",
+                    role = c("aut"),
+                    email = "gonzalezak@chop.edu"),
+             person(given = "Children's Hospital of Philadelphia",
+                    role = c("cph", "fnd"))       
+                    )
+Description: Speed statistic analyses as well as use of machine learning models
+  through several helper functions. In other words, this augments many standard functions, 
+  organizing them into summary tables or providing additional structured data that can be useful for 
+  expanding on existing analyses or machine learning models.
+License: BSD_2_clause + file LICENSE
+Imports: 
+  rlang,
+  dplyr,
+  stats
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
