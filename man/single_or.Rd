@@ -4,18 +4,16 @@
 \alias{single_or}
 \title{Single Odds Ratio Comparator}
 \usage{
-single_or(data, case_cohort, control_cohort, comparator, eval = TRUE)
+single_or(data, case_cohort, control_cohort, comparator)
 }
 \arguments{
-\item{data}{Dataframe containing all necessary data for comparison}
+\item{data}{A \code{data.frame} containing all necessary data for comparison.}
 
-\item{case_cohort}{The first group to be compared. Can be formulaic (see "eval"), \code{numeric} or \code{character} based}
+\item{case_cohort}{The first group to be compared from \code{data}. This should be an expression.}
 
-\item{control_cohort}{The second group to be compared. Can be formulaic (see "eval"), \code{numeric} or \code{character} based}
+\item{control_cohort}{The second group to be compared from \code{data}. This should be an expression.}
 
-\item{comparator}{How the groups are compared. These are \code{character} vectors.}
-
-\item{eval}{Default TRUE. When Eval flag is \code{TRUE}, cohorts will be based on formulaic filtering.  When \code{FALSE}, cohort will be based on label filtering}
+\item{comparator}{How the groups are compared. This variable should reference a column within \code{data}.}
 }
 \value{
 Returns a \code{dataframe} of Odds Ratios and summary data per cohort
@@ -26,10 +24,9 @@ Generate a Fisher's Exact Test summary table based on a single comparator betwee
 \examples{
 single_or(
   data = iris,
-  case_cohort = iris$Petal.Length > 1.2,
-  control_cohort = iris$Petal.Length <= 1.2,
-  comparator = Species,
-  eval = TRUE
+  case_cohort = Petal.Length > 1.2,
+  control_cohort = Petal.Length <= 1.2,
+  comparator = Species
 )
 
 }

@@ -1,6 +1,6 @@
 Package: icebrrrg
 Title: Statistics and Machine Learning Helper for Cleaner Expansive Summary Data
-Version: 0.0.9
+Version: 1.0.0
 Authors@R: c(person(given = "Michael",
                     family = "Kaufman",
                     role = c("aut", "cre"),
@@ -34,3 +34,6 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

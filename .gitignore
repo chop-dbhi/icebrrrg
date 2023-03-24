@@ -3,6 +3,8 @@ icebrrrg.Rproj
 .Rhistory
 .RData
 .Ruserdata
+.Rbuildignore
 *.csv
 .DS_Store
 *.env
+/tests

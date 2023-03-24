@@ -2,11 +2,10 @@
 #'
 #' Generate a Fisher's Exact Test summary table based on a single comparator between two cohorts in a single dataframe
 #'
-#' @param data Dataframe containing all necessary data for comparison
-#' @param case_cohort The first group to be compared. Can be formulaic (see "eval"), \code{numeric} or \code{character} based
-#' @param control_cohort The second group to be compared. Can be formulaic (see "eval"), \code{numeric} or \code{character} based
-#' @param comparator How the groups are compared. These are \code{character} vectors.
-#' @param eval Default TRUE. When Eval flag is \code{TRUE}, cohorts will be based on formulaic filtering.  When \code{FALSE}, cohort will be based on label filtering
+#' @param data A \code{data.frame} containing all necessary data for comparison.
+#' @param case_cohort The first group to be compared from \code{data}. This should be an expression.
+#' @param control_cohort The second group to be compared from \code{data}. This should be an expression.
+#' @param comparator How the groups are compared. This variable should reference a column within \code{data}.
 #'
 #' @importFrom rlang enquo
 #' @importFrom dplyr filter select group_by summarize n arrange desc slice pull
@@ -17,28 +16,21 @@
 #' @examples
 #' single_or(
 #'   data = iris,
-#'   case_cohort = iris$Petal.Length > 1.2,
-#'   control_cohort = iris$Petal.Length <= 1.2,
-#'   comparator = Species,
-#'   eval = TRUE
+#'   case_cohort = Petal.Length > 1.2,
+#'   control_cohort = Petal.Length <= 1.2,
+#'   comparator = Species
 #' )
 #'
 #' @export
 #'
 #' @seealso \code{\link{fisher.test}}
 
-single_or <- function(data, case_cohort, control_cohort, comparator, eval = TRUE){
+single_or <- function(data, case_cohort, control_cohort, comparator){
 
-  # substitute() returns a parse tree for an expression (i.e. the 'characters' for that expression) and deparse returns that as a string...basically converts these to character vectors
   # eval() returns a computed value from an expression
-  if(eval == TRUE) {
-    case_cohort <- eval(case_cohort)
-    control_cohort <- eval(control_cohort)
-  }
-  else {
-    case_cohort <- deparse(substitute(case_cohort))
-    control_cohort <- deparse(substitute(control_cohort))
-  }
+  # substitute() returns a parse tree for an expression (i.e. the 'characters' for that expression)
+  case_cohort <- eval(substitute(case_cohort), data)
+  control_cohort <- eval(substitute(control_cohort), data)
 
   # enquo returns single quoted expression to delay computation until explicitly activated (!! tells function when to 'activate')
   comparator <- enquo(comparator)

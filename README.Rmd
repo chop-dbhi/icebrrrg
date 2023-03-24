@@ -1,0 +1,62 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# icebrrrg
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of icebrrrg is to speed statistic analyses as well as use of machine learning models
+through several helper functions. In other words, this augments many standard functions, 
+organizing them into summary tables or providing additional structured data that can be useful for 
+expanding on existing analyses or machine learning models.
+
+## Installation
+
+You can install the development version of icebrrrg from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("chop-dbhi/icebrrrg")
+```
+## single_or()
+
+Generate a Fisher's Exact Test summary table based on a single comparator between two cohorts in a single dataframe
+
+### Example
+
+This is a basic example of the single_or function:
+
+```{r example}
+library(icebrrrg)
+## basic example code
+icebrrrg::single_or(
+  data = iris,
+  case_cohort = Petal.Length > 1.2,
+  control_cohort = Petal.Length <= 1.2,
+  comparator = Species
+  )
+```
+---
+
+# License Summary
+
+Use of this software is available to academic and non-profit institutions for research purposes subject to the terms of the 2-Clause BSD License (see copy below). For use or transfers of the software to commercial entities, please inquire with kaufmanmc@chop.edu. © 2023 CHOP. The FreeBSD Copyright
+
+Copyright and License Information
+
+Copyright (c) 2023, Children's Hospital of Philadelphia CHOP Invention 2023-059
+
+Authors: Michael Kaufman, Alexander Gonzalez, Julie Xian, Shridhar Parthasarathy
