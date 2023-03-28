@@ -33,13 +33,13 @@ single_or <- function(data, case_cohort, control_cohort, comparator){
   control_cohort <- eval(substitute(control_cohort), data)
 
   # enquo returns single quoted expression to delay computation until explicitly activated (!! tells function when to 'activate')
-  comparator <- enquo(comparator)
+  comparator <- rlang::enquo(comparator)
 
-  group_1 <- data |> filter(case_cohort)
-  group_2 <- data |> filter(control_cohort)
+  group_1 <- data |> dplyr::filter(case_cohort)
+  group_2 <- data |> dplyr::filter(control_cohort)
 
-  count_1 <- group_1 |> filter(!!comparator != "", !is.na(!!comparator)) |> nrow()
-  count_2 <- group_2 |> filter(!!comparator != "", !is.na(!!comparator)) |> nrow()
+  count_1 <- group_1 |> dplyr::filter(!!comparator != "", !is.na(!!comparator)) |> nrow()
+  count_2 <- group_2 |> dplyr::filter(!!comparator != "", !is.na(!!comparator)) |> nrow()
 
   compare_matrix <- matrix(ncol = 2, nrow = 2) |> as.data.frame()
   names(compare_matrix) <- c("group 1", "group 2")
@@ -47,11 +47,11 @@ single_or <- function(data, case_cohort, control_cohort, comparator){
 
   # Generate table for comparing cohort 1 with comparator against cohort 2 without stated comparator
   # Note: "n" may be larger than the sum of group a + b as it includes ALL patients w/ comparator
-  or_table <- data |> select(!!comparator) |>
-    filter(!!comparator != "", !is.na(!!comparator) ) |>
-    group_by(!!comparator) |>
-    summarize(n = n()) |>
-    arrange(n |> desc())
+  or_table <- data |> dplyr::select(!!comparator) |>
+    dplyr::filter(!!comparator != "", !is.na(!!comparator) ) |>
+    dplyr::group_by(!!comparator) |>
+    dplyr::summarize(n = dplyr::n()) |>
+    dplyr::arrange(n |> dplyr::desc())
 
   or_table$case_cohort_comps_yes <- NA
   or_table$case_cohort_comps_no <- NA
@@ -65,10 +65,10 @@ single_or <- function(data, case_cohort, control_cohort, comparator){
 
   for (i in seq_len(NROW(or_table))) {
 
-    feature <- or_table |> select(!!comparator) |> slice(i) |> pull(1)
+    feature <- or_table |> dplyr::select(!!comparator) |> dplyr::slice(i) |> dplyr::pull(1)
 
-    feature_1 <- group_1 |> filter(!!comparator == feature) |> nrow()
-    feature_2 <- group_2 |> filter(!!comparator == feature) |> nrow()
+    feature_1 <- group_1 |> dplyr::filter(!!comparator == feature) |> nrow()
+    feature_2 <- group_2 |> dplyr::filter(!!comparator == feature) |> nrow()
 
     compare_matrix[1, 1] <- feature_1
     compare_matrix[2, 1] <- count_1 - feature_1
@@ -76,14 +76,14 @@ single_or <- function(data, case_cohort, control_cohort, comparator){
     compare_matrix[2, 2] <- count_2 - feature_2
 
     print(paste0("Fisher test for: ", feature))
-    print(fisher.test(compare_matrix |> select(1, 2)))
+    print(stats::fisher.test(compare_matrix |> dplyr::select(1, 2)))
 
     or_table$case_cohort_comps_yes[i] <- compare_matrix[1, 1]
     or_table$case_cohort_comps_no[i] <- compare_matrix[2, 1]
     or_table$control_cohort_comps_yes[i] <- compare_matrix[1, 2]
     or_table$control_cohort_comps_no[i]<- compare_matrix[2, 2]
 
-    fish <- fisher.test(compare_matrix |> select(1, 2))
+    fish <- stats::fisher.test(compare_matrix |> dplyr::select(1, 2))
     or_table$p_value[i] <- fish$p.value
     or_table$CIU[i] <- fish$conf.int[2]
     or_table$OR[i] <- fish$estimate
