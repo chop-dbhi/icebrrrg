@@ -1,6 +1,6 @@
 Package: icebrrrg
 Title: Statistics and Machine Learning Helper for Cleaner Expansive Summary Data
-Version: 1.0.0
+Version: 1.1.1
 Authors@R: c(person(given = "Michael",
                     family = "Kaufman",
                     role = c("aut", "cre"),
